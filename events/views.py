@@ -144,5 +144,5 @@ class EventListAPIView(APIView):
 		date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
 		events = Event.objects.filter(start_date__date=date).order_by('start_date')
 
-		return self.get_slack_fields(events)
+		return self.get_slack_message_fields(events)
 		
