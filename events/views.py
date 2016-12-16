@@ -82,7 +82,7 @@ class EventListAPIView(APIView):
 			fields.append(item)
 		
 		slack_message = {
-			"text" : "Below is the schedule for " + title,
+			"text" : "Below is the schedule  ",
 			"attachments" : [
 				{
 					"title" : "Calgator",
