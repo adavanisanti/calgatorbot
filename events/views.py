@@ -71,13 +71,20 @@ class EventListAPIView(APIView):
 	def create_slack_message_for_get_events(self):
 
 		fmt = '%b %d, %Y %-I:%M %p'
+		fmt1 = '%-I:%M %p'
 
 		events = Event.objects.all()
 		fields = []
 		for event in events:
 			item = {}
 			item['title'] = event.title
-			item['value'] = event.start_date.strftime(fmt) + ' to ' + event.end_date.strftime(fmt)
+			
+			if event.start_date.date() == event.end_date.date():
+				end_fmt = fmt1
+			else:
+				end_fmt = fmt
+
+			item['value'] = event.start_date.strftime(fmt) + ' to ' + event.end_date.strftime(end_fmt)
 			item['short'] = 'true'
 			fields.append(item)
 		
