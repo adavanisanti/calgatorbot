@@ -142,7 +142,7 @@ class EventListAPIView(APIView):
 		input_date = self.parameters['date']
 
 		date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
-		events = Event.objects.filter(start_date__date=date).order_by(start_date)
+		events = Event.objects.filter(start_date__date=date).order_by('start_date')
 
 		return self.get_slack_fields(events)
 		
