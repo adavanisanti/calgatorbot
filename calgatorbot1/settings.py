@@ -25,7 +25,7 @@ SECRET_KEY = '9zbdhc^8ak_mdu&863o4n+0)=60+5fpg!r@t7ds&=3*9ayq3#$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['colgatorbot1.herokuapp.com','localhost']
 
 
 # Application definition
