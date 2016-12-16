@@ -62,6 +62,8 @@ class EventListAPIView(APIView):
 
 		if self.action == 'get.events':
 			slack_message = self.create_slack_message_for_get_events()
+		elif self.action == 'get.events.date':
+			slack_message = self.create_slack_message_for_get_events_date()
 		else:
 			slack_message = {}
 
@@ -78,7 +80,45 @@ class EventListAPIView(APIView):
 		for event in events:
 			item = {}
 			item['title'] = event.title
-			
+
+			if event.start_date.date() == event.end_date.date():
+				end_fmt = fmt1
+			else:
+				end_fmt = fmt
+
+			item['value'] = event.start_date.strftime(fmt) + ' to ' + event.end_date.strftime(end_fmt)
+			item['short'] = 'true'
+			fields.append(item)
+		
+		slack_message = {
+			"text" : "Below is the schedule  ",
+			"attachments" : [
+				{
+					"title" : "Calgator",
+					"title_link" : "www.calgator.org",
+					"color" : "#36a64f",
+					"fields" : fields,
+				}
+			],
+		}
+
+		return slack_message
+
+	def create_slack_message_for_get_events_date(self):
+
+		input_date = self.parameters['date']
+
+		date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
+
+		fmt = '%b %d, %Y %-I:%M %p'
+		fmt1 = '%-I:%M %p'
+
+		events = Event.objects.filter(start_date__date=date)
+		fields = []
+		for event in events:
+			item = {}
+			item['title'] = event.title
+
 			if event.start_date.date() == event.end_date.date():
 				end_fmt = fmt1
 			else:
