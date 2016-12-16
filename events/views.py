@@ -44,7 +44,7 @@ class EventListAPIView(APIView):
 		return Response(self.get_slack_message(),status=status.HTTP_200_OK)
 
 
-	def get_slack_message(self,action):
+	def get_slack_message(self):
 
 		# slack_message = self.create_slack_message(action)
 		slack_message = {}
