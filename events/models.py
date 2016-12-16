@@ -31,7 +31,7 @@ class Event(models.Model):
 	website = models.URLField(_("website"),default='',blank=True)
 	venue_details = models.TextField(_("venue_details"),default='',blank=True)
 	venue = models.ForeignKey(Venue,blank=True,null=True)
-	tags = TaggableManager()
+	tags = TaggableManager(blank=True)
 	def __str__(self):
 		return self.title
     
