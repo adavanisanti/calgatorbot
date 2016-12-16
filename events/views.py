@@ -46,8 +46,8 @@ class EventListAPIView(APIView):
 
 	def get_slack_message(self):
 
-		# slack_message = self.create_slack_message(action)
-		slack_message = {}
+		slack_message = self.create_slack_message()
+		# slack_message = {}
 		
 		slack_final_data = {
 			"speech" : "Today is a good day",
@@ -58,3 +58,39 @@ class EventListAPIView(APIView):
 
 		return slack_final_data
 
+	def create_slack_message(self):
+
+		if self.action == 'get.events':
+			slack_message = self.create_slack_message_for_get_events()
+		else:
+			slack_message = {}
+
+
+		return slack_message
+
+	def create_slack_message_for_get_events(self):
+
+		fmt = '%b %d, %Y %-I:%M %p'
+
+		events = Event.objects.all()
+		fields = []
+		for event in events:
+			item = {}
+			item['title'] = event.title
+			item['value'] = event.start_date.strftime(fmt) + ' to ' + event.end_date.strftime(fmt)
+			item['short'] = 'true'
+			fields.append(item)
+		
+		slack_message = {
+			"text" : "Below is the schedule for " + title,
+			"attachments" : [
+				{
+					"title" : "Calgator",
+					"title_link" : "www.calgator.org",
+					"color" : "#36a64f",
+					"fields" : fields,
+				}
+			],
+		}
+
+		return slack_message
