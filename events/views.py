@@ -104,16 +104,11 @@ class EventListAPIView(APIView):
 
 		return slack_message
 
-	def create_slack_message_for_get_events_date(self):
-
-		input_date = self.parameters['date']
-
-		date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
+	def get_slack_message_fields(self,events):
 
 		fmt = '%b %d, %Y %-I:%M %p'
 		fmt1 = '%-I:%M %p'
 
-		events = Event.objects.filter(start_date__date=date)
 		fields = []
 		for event in events:
 			item = {}
@@ -127,12 +122,12 @@ class EventListAPIView(APIView):
 			item['value'] = event.start_date.strftime(fmt) + ' to ' + event.end_date.strftime(end_fmt)
 			item['short'] = 'true'
 			fields.append(item)
-		
+
 		slack_message = {
 			"text" : "Below is the schedule  ",
 			"attachments" : [
 				{
-					"title" : "Calgator",
+					"title" : "<www.calgator.org|Calgator>",
 					"title_link" : "www.calgator.org",
 					"color" : "#36a64f",
 					"fields" : fields,
@@ -141,3 +136,13 @@ class EventListAPIView(APIView):
 		}
 
 		return slack_message
+
+	def create_slack_message_for_get_events_date(self):
+
+		input_date = self.parameters['date']
+
+		date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
+		events = Event.objects.filter(start_date__date=date).order_by(start_date)
+
+		return self.get_slack_fields(events)
+		
