@@ -26,3 +26,35 @@ class EventRetrieveAPIView(generics.RetrieveUpdateAPIView):
 class VenueRetrieveAPIView(generics.RetrieveUpdateAPIView):
 	queryset = Venue.objects.all()
 	serializer_class = VenueSerializer
+
+class EventListAPIView(APIView):
+
+
+	def post(self,request,format=None):
+
+		print request.data
+
+		try:
+			self.action = request.data['result']['action']
+			self.parameters = request.data['result']['parameters']
+		except:
+			self.action = 'show.schedule'
+			self.parameters = {}
+
+		return Response(self.get_slack_message(),status=status.HTTP_200_OK)
+
+
+	def get_slack_message(self,action):
+
+		# slack_message = self.create_slack_message(action)
+		slack_message = {}
+		
+		slack_final_data = {
+			"speech" : "Today is a good day",
+			"dispayText" : "Today is a good day",
+			"data": {"slack": slack_message},
+			"source" : "apiai-eventsbot1-webhook-sample",
+		}
+
+		return slack_final_data
+
