@@ -120,13 +120,17 @@ class EventListAPIView(APIView):
 		for event in events:
 			item = {}
 			item['title'] = event.title
+			start_date_time = event.start_date.astimezone(timezone('US/Pacific'))
+			end_date_time   = event.end_date.astimezone(timezone('US/Pacific'))
 
-			if event.start_date.date() == event.end_date.date():
+			if start_date_time.date() == end_date_time.date():
 				end_fmt = fmt1
 			else:
 				end_fmt = fmt
-			start_time = event.start_date.astimezone(timezone('US/Pacific')).strftime(fmt)
-			end_time   = event.end_date.astimezone(timezone('US/Pacific')).strftime(end_fmt)
+			
+			start_time = start_date_time.strftime(fmt)
+			end_time = end_date_time.stftime(end_fmt)
+
 			item['value'] =  start_time + ' to ' + end_time
 			item['short'] = 'true'
 			fields.append(item)
