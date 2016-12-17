@@ -7,16 +7,20 @@ from rest_framework.response import Response
 from .serializers import EventSerializer, VenueSerializer
 from .models import Event, Venue
 import datetime
+from django_filters.rest_framework import DjangoFilterBackend
 
 class EventAPIView(generics.ListCreateAPIView):
 	queryset = Event.objects.all()
 	serializer_class = EventSerializer
+	filter_backends = (DjangoFilterBackend,)
+	filter_fields = ('feed_id',)
 
 
 class VenueAPIView(generics.ListCreateAPIView):
 	queryset = Venue.objects.all()
 	serializer_class = VenueSerializer
-
+	filter_backends = (DjangoFilterBackend,)
+	filter_fields = ('venueurl',)
 
 class EventRetrieveAPIView(generics.RetrieveUpdateAPIView):
 	queryset = Event.objects.all()
