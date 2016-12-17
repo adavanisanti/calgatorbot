@@ -129,7 +129,7 @@ class EventListAPIView(APIView):
 				end_fmt = fmt
 			
 			start_time = start_date_time.strftime(fmt)
-			end_time = end_date_time.stftime(end_fmt)
+			end_time = end_date_time.strftime(end_fmt)
 
 			item['value'] =  start_time + ' to ' + end_time
 			item['short'] = 'true'
