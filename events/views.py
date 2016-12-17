@@ -6,8 +6,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import EventSerializer, VenueSerializer
 from .models import Event, Venue
-import datetime
 from django_filters.rest_framework import DjangoFilterBackend
+
+import datetime
+from pytz import timezone
+import pytz
 
 class EventAPIView(generics.ListCreateAPIView):
 	queryset = Event.objects.all()
@@ -122,8 +125,9 @@ class EventListAPIView(APIView):
 				end_fmt = fmt1
 			else:
 				end_fmt = fmt
-
-			item['value'] = event.start_date.strftime(fmt) + ' to ' + event.end_date.strftime(end_fmt)
+			start_time = event.start_date.astimezone(timezone('US/Pacific')).strftime(fmt)
+			end_time   = event.end_date.astimezone(timezone('US/Pacific')).strftime(end_fmt)
+			item['value'] =  start_time + ' to ' + end_time
 			item['short'] = 'true'
 			fields.append(item)
 
