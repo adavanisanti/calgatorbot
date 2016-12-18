@@ -108,7 +108,7 @@ class EventListAPIView(APIView):
 				# item_value += '\n' + event.description
 
 			if event.venue:
-				item_value += '\n*Venue*'+ '\n<'+event.venue.mapurl+'|'+event.venue.name+'>'
+				item_value += '\nVenue\n'+'<'+event.venue.mapurl+'|'+event.venue.name+'>'
 			
 			item['value'] =  item_value
 			item['short'] = 'false'
