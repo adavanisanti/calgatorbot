@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from .serializers import EventSerializer, VenueSerializer
 from .models import Event, Venue
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Q
 
 import datetime
 from pytz import timezone
@@ -156,8 +157,8 @@ class EventListAPIView(APIView):
 
 				start_date_time = datetime.datetime.strptime(start_time, "%Y-%m-%d-%H:%M:%S")
 				end_date_time   = datetime.datetime.strptime(end_time, "%Y-%m-%d-%H:%M:%S")
-				events = Event.objects.filter(start_date__range=(start_date_time,end_date_time)).order_by('start_date')
-
+				events = Event.objects.filter(Q(start_date__range=(start_date_time,end_date_time))| Q(end_date__range=(start_date_time,end_date_time)).order_by('start_date'))
+				print events
 		except:
 			pass
 			
