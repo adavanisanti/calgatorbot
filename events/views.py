@@ -67,51 +67,17 @@ class EventListAPIView(APIView):
 
 	def create_slack_message(self):
 
-		if self.action == 'get.events':
-			slack_message = self.create_slack_message_for_get_events()
-		elif self.action == 'get.events.date':
+		if self.action == 'get.events.date':
 			slack_message = self.create_slack_message_for_get_events_date()
+		elif self.action == 'get.events.date.time.range':
+			slack_message = self.create_slack_message_for_get_events_date_time_range()
 		else:
 			slack_message = {}
 
 
 		return slack_message
 
-	def create_slack_message_for_get_events(self):
-
-		fmt = '%b %d, %Y %-I:%M %p'
-		fmt1 = '%-I:%M %p'
-
-		events = Event.objects.all()
-		fields = []
-		for event in events:
-			item = {}
-			item['title'] = event.title
-
-			if event.start_date.date() == event.end_date.date():
-				end_fmt = fmt1
-			else:
-				end_fmt = fmt
-
-			item['value'] = event.start_date.strftime(fmt) + ' to ' + event.end_date.strftime(end_fmt)
-			item['short'] = 'true'
-			fields.append(item)
-
-		
-		slack_message = {
-			"text" : "Below is the schedule  ",
-			"attachments" : [
-				{
-					"title" : "Calgator",
-					"title_link" : "www.calgator.org",
-					"color" : "#36a64f",
-					"fields" : fields,
-				}
-			],
-		}
-
-		return slack_message
-
+	
 	def get_slack_message_fields(self,events,date):
 
 		date_fmt = '%b %d, %Y'
@@ -149,7 +115,7 @@ class EventListAPIView(APIView):
 			"text" : "Below is the schedule for " + date.strftime(date_fmt),
 			"attachments" : [
 				{
-					"title" : "<http://www.calgator.org|Calgator>",
+					"title" : "<http://www.calagator.org|Calgator>",
 					"title_link" : "www.calgator.org",
 					"color" : "#36a64f",
 					"fields" : fields,
@@ -167,4 +133,26 @@ class EventListAPIView(APIView):
 		events = Event.objects.filter(start_date__date=date).order_by('start_date')
 
 		return self.get_slack_message_fields(events,date)
+	
+	def create_slack_message_for_get_events_date_time_range(self):
+
+		input_date = self.parameters['date']
+		time_period = self.parameters['time-period']
+		date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
+		print 'Came in here'
 		
+		if time_period:
+			time_range = time_period.split("/")
+			start_time = input_date+"-"+time_range[0]
+			end_time   = input_date+"-"+time_range[1]
+
+			start_date_time = datetime.datetime.strptime(start_time, "%Y-%m-%d-%H:%M:%S")
+			end_date_time   = datetime.datetime.strptime(end_time, "%Y-%m-%d-%H:%M:%S")
+			events = Event.objects.filter(start_date__range=(start_date_time,end_date_time)).order_by('start_date')
+			print events
+
+			return self.get_slack_message_fields(events,date)
+		
+		else:
+
+			return self.create_slack_message_for_get_events_date()
