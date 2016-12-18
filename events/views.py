@@ -149,7 +149,7 @@ class EventListAPIView(APIView):
 			time_period = self.parameters['time-period']
 			date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
 			print 'Came in here'
-			
+			print time_period
 			if time_period:
 				time_range = time_period.split("/")
 				start_time = input_date+"-"+time_range[0]
@@ -157,8 +157,7 @@ class EventListAPIView(APIView):
 
 				start_date_time = datetime.datetime.strptime(start_time, "%Y-%m-%d-%H:%M:%S")
 				end_date_time   = datetime.datetime.strptime(end_time, "%Y-%m-%d-%H:%M:%S")
-				events = Event.objects.filter(Q(start_date__range=(start_date_time,end_date_time))| Q(end_date__range=(start_date_time,end_date_time)).order_by('start_date'))
-				print events
+				events = Event.objects.filter(start_date__range=(start_date_time,end_date_time)).order_by('start_date')
 		except:
 			pass
 			
