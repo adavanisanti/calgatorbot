@@ -90,8 +90,6 @@ class EventListAPIView(APIView):
 		for event in events:
 			item = {}
 			event_title = event.title
-			if event.website:
-				event_title = '<'+event.website+'|'+event.title+'>'
 
 			item['title'] = event_title
 			start_date_time = event.start_date.astimezone(timezone('US/Pacific'))
@@ -108,7 +106,7 @@ class EventListAPIView(APIView):
 
 			
 			if event.venue:
-				item_value += '\n<'+event.venue.venueurl+'|'+event.venue.name+'>'
+				item_value += '\n<'+event.venue.mapurl+'|'+event.venue.name+'>'
 			
 			item['value'] =  item_value
 			item['short'] = 'true'
