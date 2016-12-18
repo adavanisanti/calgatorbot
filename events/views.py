@@ -109,6 +109,9 @@ class EventListAPIView(APIView):
 
 			if event.venue:
 				item_value += '\nVenue\n'+'<'+event.venue.mapurl+'|'+event.venue.name+'>'
+
+			if event.event_ics:
+				item_value += '\n\n<'+event.event_ics + '|Add to calendar>'
 			
 			item['value'] =  item_value
 			item['short'] = 'false'

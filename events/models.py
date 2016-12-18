@@ -35,6 +35,7 @@ class Event(models.Model):
 	venue = models.ForeignKey(Venue,blank=True,null=True)
 	tags = TaggableManager(blank=True)
 	feed_id = models.CharField(_("feed_id"),max_length=255,blank=True,null=True)
+	event_ics = models.URLField(_("website"),default='',blank=True)
 
 	def __str__(self):
 		return self.title
