@@ -99,7 +99,7 @@ class EventListAPIView(APIView):
 
 		if not events:
 			item['title'] = 'No events on this date to the best of my knowledge!'
-			item['value'] = '<www.calgator.org|Check Calgator if you don\'t beleive me!'>'
+			item['value'] = '<www.calgator.org|Check Calgator if you don\'t beleive me!>'
 			item['short'] = false
 			fields.append(item)
 		
