@@ -126,33 +126,40 @@ class EventListAPIView(APIView):
 		return slack_message
 
 	def create_slack_message_for_get_events_date(self):
+		events = []
+		date = datetime.datetime.now()
 
-		input_date = self.parameters['date']
-
-		date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
-		events = Event.objects.filter(start_date__date=date).order_by('start_date')
+		try:
+			input_date = self.parameters['date']
+			date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
+			events = Event.objects.filter(start_date__date=date).order_by('start_date')
+		except: 
+			pass
 
 		return self.get_slack_message_fields(events,date)
 	
 	def create_slack_message_for_get_events_date_time_range(self):
 
-		input_date = self.parameters['date']
-		time_period = self.parameters['time-period']
-		date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
-		print 'Came in here'
-		
-		if time_period:
-			time_range = time_period.split("/")
-			start_time = input_date+"-"+time_range[0]
-			end_time   = input_date+"-"+time_range[1]
+		events = []
+		date = datetime.datetime.now()
 
-			start_date_time = datetime.datetime.strptime(start_time, "%Y-%m-%d-%H:%M:%S")
-			end_date_time   = datetime.datetime.strptime(end_time, "%Y-%m-%d-%H:%M:%S")
-			events = Event.objects.filter(start_date__range=(start_date_time,end_date_time)).order_by('start_date')
-			print events
+		try:
+			input_date = self.parameters['date']
+			time_period = self.parameters['time-period']
+			date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
+			print 'Came in here'
+			
+			if time_period:
+				time_range = time_period.split("/")
+				start_time = input_date+"-"+time_range[0]
+				end_time   = input_date+"-"+time_range[1]
 
-			return self.get_slack_message_fields(events,date)
-		
-		else:
+				start_date_time = datetime.datetime.strptime(start_time, "%Y-%m-%d-%H:%M:%S")
+				end_date_time   = datetime.datetime.strptime(end_time, "%Y-%m-%d-%H:%M:%S")
+				events = Event.objects.filter(start_date__range=(start_date_time,end_date_time)).order_by('start_date')
 
-			return self.create_slack_message_for_get_events_date()
+		except:
+			pass
+			
+		return self.get_slack_message_fields(events,date)
+
