@@ -141,7 +141,7 @@ class EventListAPIView(APIView):
 			item = {}
 			item['title'] = 'No events on this date to the best of my knowledge!'
 			item['value'] = '<www.calgator.org|Check Calgator if you don\'t beleive me!>'
-			item['short'] = false
+			item['short'] = 'false'
 			fields.append(item)
 		
 		slack_message = {
