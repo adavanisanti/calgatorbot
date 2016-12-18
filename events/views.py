@@ -104,12 +104,14 @@ class EventListAPIView(APIView):
 			end_time = end_date_time.strftime(end_fmt)
 			item_value = start_time + ' to ' + end_time
 
-			
+			if event.description:
+				item_value += '\n' + event.description
+
 			if event.venue:
 				item_value += '\n<'+event.venue.mapurl+'|'+event.venue.name+'>'
 			
 			item['value'] =  item_value
-			item['short'] = 'true'
+			item['short'] = 'false'
 			fields.append(item)
 
 		if not events:
