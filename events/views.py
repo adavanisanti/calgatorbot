@@ -96,6 +96,12 @@ class EventListAPIView(APIView):
 			item['value'] = event.start_date.strftime(fmt) + ' to ' + event.end_date.strftime(end_fmt)
 			item['short'] = 'true'
 			fields.append(item)
+
+		if not events:
+			item['title'] = 'No events on this date to the best of my knowledge!'
+			item['value'] = '<www.calgator.org|Check Calgator if you don\'t beleive me!'>'
+			item['short'] = false
+			fields.append(item)
 		
 		slack_message = {
 			"text" : "Below is the schedule  ",
