@@ -196,7 +196,7 @@ class EventListAPIView(APIView):
 		if not events:
 			item = {}
 			item['title'] = 'No events on this date to the best of my knowledge!'
-			item['text'] = '<http://www.calagator.org|Check Calgator if you don\'t beleive me!>'
+			item['text'] = '<http://www.calagator.org|Check Calagator or Meetup if you don\'t beleive me!>'
 			item['color'] = '#36a64f'
 			attachments.append(item)
 
