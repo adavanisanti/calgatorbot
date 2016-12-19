@@ -193,12 +193,12 @@ class EventListAPIView(APIView):
 				calendar_field['short'] = 'false'
 				item["fields"].append(calendar_field)
 
-		# if not events:
-		# 	item = {}
-		# 	item['title'] = 'No events on this date to the best of my knowledge!'
-		# 	item['value'] = '<http://www.calagator.org|Check Calgator if you don\'t beleive me!>'
-		# 	item['short'] = 'false'
-		# 	fields.append(item)
+		if not events:
+			item = {}
+			item['title'] = 'No events on this date to the best of my knowledge!'
+			item['text'] = '<http://www.calagator.org|Check Calgator if you don\'t beleive me!>'
+			item['color'] = '#36a64f'
+			attachments.append(item)
 
 		
 		
