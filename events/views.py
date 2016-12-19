@@ -86,7 +86,6 @@ class EventListAPIView(APIView):
 		fmt1 = '%-I:%M %p'
 
 		fields = []
-		
 		for event in events:
 			item = {}
 			event_title = event.title
@@ -123,6 +122,8 @@ class EventListAPIView(APIView):
 			item['value'] = '<http://www.calagator.org|Check Calgator if you don\'t beleive me!>'
 			item['short'] = 'false'
 			fields.append(item)
+
+
 		
 		slack_message = {
 			"text" : "Below is the schedule for " + date.strftime(date_fmt),
@@ -138,6 +139,39 @@ class EventListAPIView(APIView):
 
 		return slack_message
 
+	def get_slack_message_fields_formatted(self,events,date):
+
+		date_fmt = '%b %d, %Y'
+		fmt = '%b %d, %Y %-I:%M %p'
+		fmt1 = '%-I:%M %p'
+
+		fields = []
+		attachments = []
+
+		for event in events:
+			item = {}
+			event_title = event.title
+
+			item['title'] = event_title
+			item["color"] = "#36a64f",
+			attachments.append(item)
+
+		# if not events:
+		# 	item = {}
+		# 	item['title'] = 'No events on this date to the best of my knowledge!'
+		# 	item['value'] = '<http://www.calagator.org|Check Calgator if you don\'t beleive me!>'
+		# 	item['short'] = 'false'
+		# 	fields.append(item)
+
+		
+		
+		slack_message = {
+			"text" : "Below is the schedule for " + date.strftime(date_fmt),
+			"attachments" : attachments,
+		}
+
+		return slack_message
+
 	def create_slack_message_for_get_events_date(self):
 		events = []
 		date = datetime.datetime.now()
@@ -149,7 +183,7 @@ class EventListAPIView(APIView):
 		except: 
 			pass
 
-		return self.get_slack_message_fields(events,date)
+		return self.get_slack_message_fields_formatted(events,date)
 	
 	def create_slack_message_for_get_events_date_time_range(self):
 
@@ -173,5 +207,5 @@ class EventListAPIView(APIView):
 		except:
 			pass
 			
-		return self.get_slack_message_fields(events,date)
+		return self.get_slack_message_fields_formatted(events,date)
 
