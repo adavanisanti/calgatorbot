@@ -155,6 +155,28 @@ class EventListAPIView(APIView):
 			item['title'] = event_title
 			item["color"] = "#36a64f",
 			attachments.append(item)
+			item["fields"] = []
+
+			# Time
+			start_date_time = event.start_date.astimezone(timezone('US/Pacific'))
+			end_date_time   = event.end_date.astimezone(timezone('US/Pacific'))
+
+			if start_date_time.date() == end_date_time.date():
+				end_fmt = fmt1
+			else:
+				end_fmt = fmt
+			
+			start_time = start_date_time.strftime(fmt)
+			end_time = end_date_time.strftime(end_fmt)
+			item_value = start_time + ' to ' + end_time
+
+			time_field = {}
+			time_field['title'] = 'Time'
+			time_field['value'] = item_value
+			time_field['short'] = 'true'
+
+			item["fields"].append(time_field)
+
 
 		# if not events:
 		# 	item = {}
