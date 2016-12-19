@@ -186,6 +186,13 @@ class EventListAPIView(APIView):
 				item["fields"].append(venue_field)
 
 
+			# Add to calendar
+			if event.event_ics:
+				calendar_field = {}
+				calendar_field['title'] = '<'+event.event_ics + '|Add to calendar>'
+				calendar_field['short'] = 'false'
+				item["fields"].append(calendar_field)
+
 		# if not events:
 		# 	item = {}
 		# 	item['title'] = 'No events on this date to the best of my knowledge!'
