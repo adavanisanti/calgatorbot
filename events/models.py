@@ -19,6 +19,7 @@ class Venue(models.Model):
 	wifi = models.NullBooleanField(choices=YES_NO_CHOICES,max_length=3,blank=True, null=True, default=None)
 	mapurl = models.URLField(_("mapurl"),default='',blank=True)
 	venueurl = models.URLField(_("venueurl"),default='',blank=True)
+	venueid = models.PositiveIntegerField(_("venueid"),null=True)
 
 	def __str__(self):
 		return self.name

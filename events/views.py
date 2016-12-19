@@ -24,7 +24,7 @@ class VenueAPIView(generics.ListCreateAPIView):
 	queryset = Venue.objects.all()
 	serializer_class = VenueSerializer
 	filter_backends = (DjangoFilterBackend,)
-	filter_fields = ('venueurl',)
+	filter_fields = ('venueurl','venueid')
 
 class EventRetrieveAPIView(generics.RetrieveUpdateAPIView):
 	queryset = Event.objects.all()
