@@ -177,6 +177,14 @@ class EventListAPIView(APIView):
 
 			item["fields"].append(time_field)
 
+			# Venue
+			if event.venue:
+				venue_field = {}
+				venue_field['title'] = 'Venue'
+				venue_field['value'] = '<'+event.venue.mapurl+'|'+event.venue.name+'>'
+				venue_field['short'] = 'true'
+				item["fields"].append(venue_field)
+
 
 		# if not events:
 		# 	item = {}
