@@ -22,7 +22,7 @@ class EventAPITests(APITestCase):
 		post_data = {}
 		post_data['result'] = {}
 		post_data['result']['action'] = "get.events.date"
-		post_data['result']['parameters'] = {'date':"2016-12-17"}
+		post_data['result']['parameters'] = {'date':"2016-12-19"}
 		post_data_json = json.dumps(post_data)
 		response = self.client.post(webhook_url,data=post_data_json,HTTP_EVENT='Event1',content_type='application/json')
 		print response
@@ -33,7 +33,7 @@ class EventAPITests(APITestCase):
 		post_data = {}
 		post_data['result'] = {}
 		post_data['result']['action'] = "get.events.date.time.range"
-		post_data['result']['parameters'] = {'date':"2016-12-18",'time-period':'00:00:00/23:59:00'}
+		post_data['result']['parameters'] = {'date':"2016-12-19",'time-period':'00:00:00/23:59:00'}
 		post_data_json = json.dumps(post_data)
 		response = self.client.post(webhook_url,data=post_data_json,HTTP_EVENT='Event1',content_type='application/json')
 		print response
