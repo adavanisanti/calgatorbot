@@ -1,2 +1,2 @@
-# calgatorbot
-Chatbot for Calgator
+# pdxeventsbot
+Chatbot for PDX events
